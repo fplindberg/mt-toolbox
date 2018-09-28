@@ -1,0 +1,137 @@
+body {
+	background-color: #a1887f;
+}
+.jumbotron {
+	background-color: #795548;
+	color: #000000;
+}
+.left {
+	background-color: #795548;
+	border-right: 5px solid #000000;
+}
+.right {
+	
+}
+.left .header {
+	height: 15vh;
+	max-height: 15vh;
+}
+.left .main {
+	height: 85vh;
+	max-height: 85vh;
+}
+.left .header .content {
+	background-color: #795548;
+	color: #FFFFFF;
+	height: auto;
+	width: 100%;
+	border-radius: 10px;
+	padding: 2vh;
+}
+.left .main .content {
+	border-top: 2px solid #ffc107;
+	height: 100%;
+	width: 100%;
+	padding: 20px;
+}
+.right .header {
+	height: 25vh;
+	max-height: 25vh;
+}
+.right .main {
+	height: 75vh;
+	max-height: 75vh;
+}
+.right .header .content {
+	background-color: #00695c;
+	color: #e0e0e0 ;
+	border: 2px solid #000000;
+	height: auto;
+	width: 100%;
+	margin: 2vh;
+	border-radius: 10px;
+	padding: 2vh;
+}
+.right .main .content {
+	height: 100%;
+	width: 100%;
+	padding: 20px;
+}
+.list-group {
+	overflow-y: scroll;
+	border: 2px solid #101010;
+	border-radius: 10px;
+}
+.left .list-group {
+	max-height: 80vh;
+}
+.right .list-group {
+	max-height: 70vh;
+}
+.list-group .active {
+	background-color: #00695c;
+	color: #bdbdbd;
+	border: 2px solid #000000;
+	transform: scale(1,1.01);
+}
+.list-group-item {
+	background-color: #757575;
+	color: #eeeeee;
+	border: 1px solid #424242;
+	border-radius: 5px;
+	transition: .5s ease;
+}
+.list-group-item-action:hover {
+	background-color: #4db6ac;
+	color: #eeeeee;
+}
+.btn:focus {
+	outline: none;
+	box-shadow: none;
+}
+.finished {
+	background-color: #66bb6a;
+	color: #616161;
+	font-style: italic;
+	text-decoration: line-through;
+	opacity: 0.8;
+}
+.unfinished {
+	
+}
+.approved {
+	background-color: #81c784;
+	color: #616161;
+	font-style: italic;
+	text-decoration: line-through;
+	opacity: 0.8;
+}
+.remark {
+	background-color: #ffd54f;
+	color: #616161;
+	font-style: italic;
+	text-decoration: line-through;
+	opacity: 0.8;
+}
+.failed {
+	background-color: #e57373;
+	color: #616161;
+	font-style: italic;
+	text-decoration: line-through;
+	opacity: 0.8;
+}
+.disabled {
+	background-color: #616161 !important;
+	color: #212121 !important;
+	font-style: italic;
+	opacity: 0.8;
+}
+.approved.disabled {
+	color: #81c784 !important;
+}
+.remark.disabled {
+	color: #ffd54f !important;
+}
+.failed.disabled {
+	color: #e57373 !important;
+}

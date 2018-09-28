@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>Hantera Profil</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/profileWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>Profil</h1>
+		</div>
+	</div>
+	
+	<!-- User profile input fields container -->
+	<div class="container">
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="name-addon" class="input-group-text">Namn:</span>
+			</div>
+			<input type="text" id="name-field" class="form-control">
+		</div>
+		
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="title-addon" class="input-group-text">Titel:</span>
+			</div>
+			<input type="text" id="title-field" class="form-control">
+		</div>
+		
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="place-addon" class="input-group-text">Arbetsplats:</span>
+			</div>
+			<input type="text" id="place-field" class="form-control">
+		</div>
+		
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="signature-addon" class="input-group-text">Signatur:</span>
+			</div>
+			<input type="text" id="signature-field" class="form-control">
+		</div>
+	</div>
+	
+	<!-- Button toolbar -->
+	<div id="buttons" class="btn-toolbar text-center justify-content-center">
+		<hr class="w-100">
+		<div class="btn-group mr-1">
+			<button type="button" id="save-button" class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="top" title="Spara" onclick="submitProfile();"><i class="material-icons">save</i></button>
+		</div>
+		<div class="btn-group mr-1">
+			<button type="button" id="flush-button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-placement="top" title="Radera" onclick="loadUserData();"><i class="material-icons">delete</i></button>
+		</div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/profileWindow.js"></script>
+</body>
+</html>

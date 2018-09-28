@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>FU-Schema</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/pmWindow.css">
+</head>
+
+<body class="app">
+	<div class="container-fluid">
+		<div class="row">
+			<!-- Left sidebar column -->
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 left">
+				<!-- Header for sidebar -->
+				<div class="row header align-items-center">
+					<div class="content">
+						<h2 class="text-center"><strong>FU-Schema</strong></h2>
+					</div>
+				</div>
+				<!-- Main content for sidebar with schedule for sites -->
+				<div class="row main">
+					<div class="content">
+						<ul id="site-list"></ul>
+					</div>
+				</div>
+			</div>
+			<!-- Header for main content -->
+			<div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 right">
+				<div class="row header align-items-center">
+					<div class="content">
+						<h2 id="site-name" class="text-center" style="font-weight: bold">Klicka på en plats för att ladda dess inventarier</h2>
+						<div class="button-toolbar float-right">
+							<button type="button" id="report-button" class="btn btn-lg btn-dark float-right" data-toggle="tooltip" data-placement="top" title="Skapa rapport" onclick="openSummary();"><i class="material-icons">assignment</i></button>
+						</div>
+						<a id="date-scheduled" class="font-weight-bold">yyyy-mm-dd</a>
+						<a><br></a>
+						<a id="maintenance-summary" class="font-italic">Godkända: <span id="approved-summary">X</span> / Godkända med anmärkning: <span id="remark-summary">X</span> / Underkända: <span id="failed-summary">X</span> / Kvar: <span id="remaining-summary">X</span></a>
+					</div>
+				</div>
+				<div class="row main">
+					<div class="content">
+						<ul id="inventory-list"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/pmWindow.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>Resultatsammanfattning</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/summaryWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>Teknikrondsrapport</h1>
+		</div>
+	</div>
+	
+	<div class="container text-center">
+		<h2><span id="site-field"></span> - <span id="date-field"></span></h2>
+		<hr class="w-100">
+	</div>
+	
+	<div class="container">
+		<h3 class="text-center">Inventarier med anmärkningar</h3>
+		<table id="remark-table" class="table table-sm table-bordered">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col">MTA-nummer</th>
+					<th scope="col">Kommentar</th>
+					<th scope="col">Test</th>
+					<th scope="col">Åtgärd</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<hr class="w-100">
+	</div>
+	<div class="container">
+		<h3 class="text-center">Underkända Inventarier</h3>
+		<table id="failed-table" class="table table-sm table-bordered">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col">MTA-nummer</th>
+					<th scope="col">Kommentar</th>
+					<th scope="col">Test</th>
+					<th scope="col">Åtgärd</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<hr class="w-100">
+	</div>
+	<div class="container">
+		<h3 class="text-center">Inventarier som inte hittats</h3>
+		<ul id="missing-list" class="list-group"></ul>
+		<hr class="w-100">
+	</div>
+	
+	<!-- User profile input fields container -->
+	<div class="container">
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="cast-addon" class="input-group-text">Medverkande:</span>
+			</div>
+			<textarea id="cast-field" class="form-control" rows="3"></textarea>
+		</div>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="investments-addon" class="input-group-text">Planerade investeringar:</span>
+			</div>
+			<textarea id="investments-field" class="form-control" rows="3"></textarea>
+		</div>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="future-addon" class="input-group-text">Framtidsplaner:</span>
+			</div>
+			<textarea id="future-field" class="form-control" rows="3"></textarea>
+		</div>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span id="other-addon" class="input-group-text">Övrigt:</span>
+			</div>
+			<textarea id="other-field" class="form-control" rows="3"></textarea>
+		</div>
+	</div>
+	
+	<!-- Button toolbar -->
+	<div id="buttons" class="btn-toolbar text-center justify-content-center">
+		<hr class="w-100">
+		<div class="btn-group mr-1">
+			<button type="button" id="send-button" class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="top" title="Skapa pdf" onclick="sendResult();"><i class="material-icons">mail</i></button>
+		</div>
+		<div class="btn-group mr-1">
+			<button type="button" id="flush-button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-placement="top" title="Radera" onclick="printSummaryData();"><i class="material-icons">delete</i></button>
+		</div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/summaryWindow.js"></script>
+</body>
+</html>

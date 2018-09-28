@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>FU-Planering</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/mainWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>MT-Toolbox</h1>
+		</div>
+	</div>
+	
+	<!-- Navbar with profile/schedule settings and close button -->
+	<nav class="navbar navbar-dark bg-dark">
+		<div class="navbar-text"><span id="user-name" class="font-weight-bold"></span><br><span id="user-title" class="font-italic"></span></div>
+		<div class="button-toolbar">
+			<button type="button" id="schedule-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Schemaläggning" onclick="openScheduler();"><i class="material-icons">date_range</i></button>
+			<button type="button" id="profile-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Hantera profil" onclick="openProfile();"><i class="material-icons">person</i></button>
+			<button type="button" id="exit-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Avsluta" onclick="closeWindow();"><i class="material-icons">close</i></button>
+		</div>
+	</nav>
+	
+	<!-- Container with clickable tool-cards -->
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<a href="#" onclick="openACForm();" class="card text-center text-white bg-dark">
+					<img class="card-img-top" src="assets/images/checklist.jpg" alt="Arrival control Card image cap">
+					<h4 class="card-header">Ankomstkontroll</h4>
+					<div class="card-body">
+						<h5 class="card-subtitle text-muted">Öppna digital checklista för Ankomstkontroll</h5></h5>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<a href="#" onclick="openPMPlan();" class="card text-center text-white bg-dark">
+					<img class="card-img-top" src="assets/images/calendar.jpg" alt="Arrival control Card image cap">
+					<h4 class="card-header">FU-Planering</h4>
+					<div class="card-body">
+						<h5 class="card-subtitle text-muted">Öppna inventarielistor för de enheter där du ansvarar för att utföra FU</h5>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<a href="#" onclick="" class="card text-center text-white bg-dark">
+					<img class="card-img-top" src="assets/images/camels.jpg" alt="Dummy Card image cap">
+					<h4 class="card-header">Dummy card</h4>
+					<div class="card-body">
+						<h5 class="card-subtitle text-muted">Reserverad för framtida användning</h5>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<a href="#" onclick="" class="card text-center text-white bg-dark">
+					<img class="card-img-top" src="assets/images/camels.jpg" alt="Dummy Card image cap">
+					<h4 class="card-header">Dummy card</h4>
+					<div class="card-body">
+						<h5 class="card-subtitle text-muted">Reserverad för framtida användning</h5>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Footer with signature
+	<footer id="footer">
+		<p>&copy 2018 by <strong>fp</strong></p>
+	</footer> -->
+	
+	<!-- Javascripts -->
+	<script src="assets/js/mainWindow.js"></script>
+</body>
+</html>

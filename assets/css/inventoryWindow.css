@@ -1,0 +1,17 @@
+body {
+	background-color: #a1887f;
+}
+.jumbotron {
+	background-color: #795548;
+	color: #eeeeee;
+}
+.input-group-prepend .input-group-text {
+	min-width: 140px;
+}
+textarea {
+	resize: none;
+}
+.btn:focus {
+	outline: none;
+	box-shadow: none;
+}

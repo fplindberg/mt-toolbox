@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>Ankomstkontrollsformulär</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/acWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>Ankomstkontroll checklista - Medicinsk Teknik</h1>
+		</div>
+	</div>
+	
+	<!-- User profile input fields container -->
+	<div class="container-fluid">
+		<form>
+			<div class="form-row" id="inventory-information-row">
+				<h2 class="col-12" style="font-weight: bold;">0. Inventarieinformation</h2><br>
+				<div class="form-group col-5">
+					<label for="spri-field">Sprikod:</label>
+					<input type="number" id="spri-field" class="form-control" placeholder="123-123-123">
+				</div>
+				<div class="form-group col-7">
+					<label for="name-field">Benämning:</label>
+					<input type="text" id="name-field" class="form-control" placeholder="Abc...">
+				</div>
+				<div class="form-group col-5">
+					<label for="number-field">MTA-nr:</label>
+					<input type="number" id="number-field" class="form-control" placeholder="12345">
+				</div>
+				<div class="form-group col-7">
+					<label for="model-field">Modell:</label>
+					<input type="text" id="model-field" class="form-control" placeholder="Abc...">
+				</div>
+				<div class="form-group col-5">
+					<label for="serial-field">Serienr:</label>
+					<input type="text" id="serial-field" class="form-control" placeholder="123ABC...">
+				</div>
+				<div class="form-group col-5">
+					<label for="manufacturer-field">Leverantör:</label>
+					<input type="text" id="manufacturer-field" class="form-control" placeholder="Abc...">
+				</div>
+				<div class="form-group col-2">
+					<div class="form-check">
+						<input type="checkbox" id="approved-manufacturer-box" class="form-check-input position-static">
+						<label class="form-check-label" for="approved-manufacturer-box">Godkänd lev</label>
+					</div>
+				</div>
+				<div class="form-group col-3">
+					<div class="form-check">
+						<input type="checkbox" id="test-set-box" class="form-check-input position-static">
+						<label class="form-check-label" for="test-set-box">Provuppställning</label>
+					</div>
+				</div>
+				<div class="form-group col-2">
+					<div class="form-check">
+						<input type="checkbox" id="loan-box" class="form-check-input position-static">
+						<label class="form-check-label" for="loan-box">Lån</label>
+					</div>
+				</div>
+				<div class="form-group col-7">
+					<label for="appendices-field">Bilagor:</label>
+					<input type="text" id="appendices-field" class="form-control" placeholder="Abc...">
+				</div>
+				<div class="form-group col-8">
+					Kontakt med annan verksamhet inför installation/användning
+				</div>
+				<div class="form-group col-2">
+					<div class="form-check">
+						<input type="radio" id="contact-yes-box" name="contact-radios" class="form-check-input position-static" value="option1">
+						<label class="form-check-label" for="contact-yes-box">Ja</label>
+					</div>
+				</div>
+				<div class="form-group col-2">
+					<div class="form-check">
+						<input type="radio" id="contact-no-box" name="contact-radios" class="form-check-input position-static" value="option2">
+						<label class="form-check-label" for="contact-no-box">Nej</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-row" id="general-controls-row">
+				<h2 class="col-12" style="font-weight: bold;">1. Allmänna kontroller</h2><br>
+				<div class="form-group col-1">OK</div>
+				<div class="form-group col-1">Anm.</div>
+				<div class="form-group col-1">Ej tillämpl.</div>
+				<div class="form-group col-9"></div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="delivery-ok-box" name="delivery-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="delivery-not-ok-box" name="delivery-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="delivery-not-used-box" name="delivery-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Leveranskontroll (Avstämning mot beställning, följesedel, emballage/gods oskadat, skall emballage sparas?)</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="marking-ok-box" name="marking-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="marking-not-ok-box" name="marking-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="marking-not-used-box" name="marking-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Märkning och läsbarhet (CE märkning, MDD direktivet, varningsskyltar och användargränssnitt på svenska)</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="documentation-ok-box" name="documentation-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="documentation-not-ok-box" name="documentation-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="documentation-not-used-box" name="documentation-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Dokumentation (Bruksanvisningar(svenska), teknisk dokumentation, instruktioner för FU i teknisk dokumentation)</div>
+			</div>
+			
+			<div class="form-row" id="general-safety-controls-row">
+				<h2 class="col-12" style="font-weight: bold;">2. Allmänna Säkerhetskontroller</h2><br>
+				<div class="form-group col-1">OK</div>
+				<div class="form-group col-1">Anm.</div>
+				<div class="form-group col-1">Ej tillämpl.</div>
+				<div class="form-group col-9"></div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="electrical-safety-ok-box" name="electrical-safety-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="electrical-safety-not-ok-box" name="electrical-safety-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="electrical-safety-not-used-box" name="electrical-safety-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-5">Elsäkerhetstest/kontroll av skyddsjord, mätinstrument MTA:</div>
+				<div class="form-group col-4">
+					<input type="number" id="electrical-safety-field" class="form-control" placeholder="12345">
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="correctly-mounted-ok-box" name="correctly-mounted-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="correctly-mounted-not-ok-box" name="correctly-mounted-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="correctly-mounted-not-used-box" name="correctly-mounted-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Kontrollera att produkten är mekaniskt stabil och korrekt monterad</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="alarm-functions-ok-box" name="alarm-functions-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="alarm-functions-not-ok-box" name="alarm-functions-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="alarm-functions-not-used-box" name="alarm-functions-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Larmfunktioner och indikeringar märks på 1 m avstånd, larmgränser skall framgå av bruksanvisning</div>
+			</div>
+			
+			<div class="form-row" id="specific-controls-row">
+				<h2 class="col-12" style="font-weight: bold;">3. Specifika kontroller</h2><br>
+				<div class="form-group col-1">OK</div>
+				<div class="form-group col-1">Anm.</div>
+				<div class="form-group col-1">Ej tillämpl.</div>
+				<div class="form-group col-9"></div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="functional-test-ok-box" name="functional-test-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="functional-test-not-ok-box" name="functional-test-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="functional-test-not-used-box" name="functional-test-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Kort funktionskontroll</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="verified-ok-box" name="verified-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="verified-not-ok-box" name="verified-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="verified-not-used-box" name="verified-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-5">Funktioner verifierade mot mätinstrument MTA-nr:</div>
+				<div class="form-group col-4">
+					<input type="number" id="verified-field" class="form-control" placeholder="12345">
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="preformance-ok-box" name="preformance-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="preformance-not-ok-box" name="preformance-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="preformance-not-used-box" name="preformance-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Mätvärden relativt utlovade prestanda (sparas enligt lokala rutiner)</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="configuration-ok-box" name="configuration-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="configuration-not-ok-box" name="configuration-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="configuration-not-used-box" name="configuration-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Konfiguration/anpassning enligt verksamhetens önskemål (sparas enligt lokala rutiner)</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="software-ok-box" name="software-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="software-not-ok-box" name="software-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="software-not-used-box" name="software-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-9">Kontroll att rätt mjukvaruversion är installerad, rätt optioner. Notera i Medusa</div>
+			</div>
+			
+			<p style="page-break-after: always;">&nbsp;</p>
+			<p style="page-break-before: always;">&nbsp;</p>
+			
+			<div class="form-row" id="marking-row">
+				<h2 class="col-12" style="font-weight: bold;">4. Märkning</h2><br>
+				<div class="form-group col-1">OK</div>
+				<div class="form-group col-1">Ej tillämpl.</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9"></div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="purchased-ok-box" name="purchased-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="purchased-not-used-box" name="purchased-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Köpt/långtidslånad utrustning MTA märks och registreras i Medusa</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="try-out-ok-box" name="try-out-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="try-out-not-used-box" name="try-out-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Provuppställd/korttidslån skall märkas där det framgår att den är godkänd samt giltighetstid</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="pm-ok-box" name="pm-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="pm-not-used-box" name="pm-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Utrustningen märks med FU intervall. Klisterlapp med uppgift om nästa kalibreringstillfälle</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="computers-ok-box" name="computers-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="computers-not-used-box" name="computers-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Datorer som är MTP kopplade till närverk skall märkas med dekal</div>
+			</div>
+			
+			<div class="form-row" id="result-row">
+				<h2 class="col-12" style="font-weight: bold;">5. Resultat av ankomstkontroll och rapportering</h2><br>
+				<div class="form-group col-1">JA</div>
+				<div class="form-group col-1">Ej tillämpl.</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9"></div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="approved-box" name="status-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check"></div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Godkänd</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="remark-box" name="status-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check"></div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Godkänd men med anmärkningar. Anm anges i Bilaga 1 med datum för åtgärd</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="failed-box" name="status-radios" class="form-check-input position-static" value="option3">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check"></div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Underkänd. MTA rekommenderar att produkten ej används kliniskt</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="report-activity-ok-box" name="report-activity-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="report-activity-not-used-box" name="report-activity-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Rapport till verksamhetsansvarig samt till leverantör och upphandlingsenheten</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="report-others-ok-box" name="report-others-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="report-others-not-used-box" name="report-others-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-5">Rapport till annan verksamhet:</div>
+				<div class="form-group col-4">
+					<input type="text" id="report-others-field" class="form-control" placeholder="Abc...">
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="warranty-ok-box" name="warranty-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="warranty-not-used-box" name="warranty-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-5">Garanti och tillgänglighet börjar mätas from(Notera i Medusa):</div>
+				<div class="form-group col-4">
+					<input type="date" id="warranty-field" class="form-control" placeholder="åååå-mm-dd">
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="warranty-inspection-ok-box" name="warranty-inspection-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="warranty-inspection-not-used-box" name="warranty-inspection-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-9">Bestäm tidpunkt för garantibesiktning</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="clinic-education-ok-box" name="clinic-education-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="clinic-education-not-used-box" name="clinic-education-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-5">Utbildning till klinik. Planerat datum:</div>
+				<div class="form-group col-4">
+					<input type="date" id="clinic-education-field" class="form-control" placeholder="åååå-mm-dd">
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="mt-education-ok-box" name="mt-education-radios" class="form-check-input position-static" value="option1">
+					</div>
+				</div>
+				<div class="form-group col-1">
+					<div class="form-check">
+						<input type="radio" id="mt-education-not-used-box" name="mt-education-radios" class="form-check-input position-static" value="option2">
+					</div>
+				</div>
+				<div class="form-group col-1"></div>
+				<div class="form-group col-5">Utbildning till MT-personal. Planerat datum:</div>
+				<div class="form-group col-4">
+					<input type="date" id="mt-education-field" class="form-control" placeholder="åååå-mm-dd">
+				</div>
+			</div>
+			
+			<div class="form-row" id="appendix-row">
+				<h2 class="col-12" style="font-weight: bold;">Bilaga 1. Anmärkningar med datum för åtgärd</h2>
+				<div class="form-group col-12">
+					<textarea id="remarks-field" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			
+			<div class="form-row" id="signature-row">
+				<div class="form-group col-6">
+					<label for="date-field">Datum:</label>
+					<input type="date" id="date-field" class="form-control" placeholder="åååå-mm-dd">
+				</div>
+				<div class="form-group col-6">
+					<label for="signature-field">Namn:</label>
+					<input type="text" id="signature-field" class="form-control" placeholder="Abc...">
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<!-- Button toolbar -->
+	<div id="buttons" class="btn-toolbar text-center justify-content-center">
+		<hr class="w-100">
+		<div class="btn-group mr-1">
+			<button type="button" id="send-button" class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="top" title="Skapa pdf" onclick="sendResult();"><i class="material-icons">mail</i></button>
+		</div>
+		<div class="btn-group mr-1">
+			<button type="button" id="flush-button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-placement="top" title="Radera" onclick="clearData();"><i class="material-icons">delete</i></button>
+		</div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/acWindow.js"></script>
+</body>
+</html>

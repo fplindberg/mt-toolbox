@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>Inloggning</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/loginWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>Logga in</h1>
+		</div>
+	</div>
+	
+	<!-- User profile input fields container -->
+	<div class="container">
+		<form>
+			<div id="message-box"></div>
+			
+			<div class="form-group">
+				<label for="username">Användarnamn</label>
+				<input type="text" id="username-field" class="form-control" placeholder="Namn...">
+				<small id="username-help" class="form-text text-muted">Ange ditt Medusa-användarnamn</small>
+			</div>
+			<div class="form-group">
+				<label for="password">Lösenord</label>
+				<input type="password" id="password-field" class="form-control" placeholder="Lösen...">
+				<small id="password-help" class="form-text text-muted">Ange ditt Medusa-lösenord</small>
+			</div>
+		</form>
+	</div>
+	
+	<!-- Button toolbar -->
+	<div id="buttons" class="btn-toolbar text-center justify-content-center">
+		<hr class="w-100">
+		<div class="btn-group mr-1">
+			<button type="button" id="login-button" class="btn btn-lg btn-success" data-toggle="tooltip" data-placement="top" title="Logga in" onclick="tryLogin();"><i class="material-icons">vpn_key</i></button>
+		</div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/loginWindow.js"></script>
+</body>
+</html>

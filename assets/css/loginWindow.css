@@ -1,0 +1,14 @@
+body {
+	background-color: #FFFFFF;
+}
+.jumbotron {
+	background-color: #795548;
+	color: #eeeeee;
+}
+.input-group-text {
+	min-width: 120px;
+}
+.btn:focus {
+	outline: none;
+	box-shadow: none;
+}

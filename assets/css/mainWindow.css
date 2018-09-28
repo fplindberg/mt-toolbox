@@ -1,0 +1,50 @@
+body {
+	background-color: #FFFFFF;
+}
+.jumbotron {
+	background-color: #795548;
+	color: #eeeeee;
+	margin-bottom: 10px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+}
+
+.input-group-text {
+	min-width: 120px;
+}
+textarea {
+	resize: none;
+}
+.btn:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.card {
+	height: 90%;
+	margin: 5px;
+}
+
+.card .card-img-top {
+	height: 50%;
+}
+
+.card .card-header {
+	/*height: 15%;
+	white-space: nowrap;*/
+	border-radius: 5px;
+	border-color: #ffb300;
+	box-shadow: none;
+}
+
+.card .card-body {
+	/*height: 35%;*/
+	font-style: italic;
+}
+
+a.card:hover {
+	text-decoration: none;
+	transform: scale(1.01,1.01);
+}
