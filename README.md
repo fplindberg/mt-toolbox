@@ -21,12 +21,6 @@ To install the application, the following programs needs to be installed on the 
 
 ### Installing
 
-Change current working directory to project folder. This is an example:
-
-```
-cd ~\mt_toolbox
-```
-
 To install the application, npm is used. Run this command from project folder where package.json is located:
 
 ```
@@ -47,8 +41,8 @@ The application will now start. A login window appears.
 
 Log into the application with one of the following sample users:
 
-- `Tolvanssons son:` - Username: '' - Password: ''
-- `Tolvansson:` - Username: 'tolvansson' - Password: 'tolv'
+- `Tolvanssons son:` Username: "", Password: ""
+- `Tolvansson:` Username: "tolvansson", Password: "tolv"
 
 After login, the main window appears. From the main window, you can navigate to the applications other windows. The options are:
 
