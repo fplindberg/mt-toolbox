@@ -24,6 +24,8 @@
 	<nav class="navbar navbar-dark bg-dark">
 		<div class="navbar-text"><span id="user-name" class="font-weight-bold"></span><br><span id="user-title" class="font-italic"></span></div>
 		<div class="button-toolbar">
+			<button type="button" class="btn btn-lg btn-dark" onclick="" disabled><i id="status-indicator"></i></button>
+			<button type="button" id="connection-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Anslut" onclick="sqlConnect();"><i class="material-icons">sync</i></button>
 			<button type="button" id="schedule-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Schemaläggning" onclick="openScheduler();"><i class="material-icons">date_range</i></button>
 			<button type="button" id="profile-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Hantera profil" onclick="openProfile();"><i class="material-icons">person</i></button>
 			<button type="button" id="exit-button" class="btn btn-lg btn-dark" data-toggle="tooltip" data-placement="top" title="Avsluta" onclick="closeWindow();"><i class="material-icons">close</i></button>

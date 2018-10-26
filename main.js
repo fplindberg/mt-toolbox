@@ -4,6 +4,10 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
+const sql = require('mssql');
+var config = {};
+let sql_pool;
+
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 global.globaluser = {
@@ -11,8 +15,10 @@ global.globaluser = {
 	responsibilities: []
 };
 
+global.connectionstatus = 'disconnected';
+
 // SET ENV
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'dev';//'production';
 
 // Window initiation
 let loginWindow;
@@ -373,12 +379,23 @@ ipcMain.on('login:successful', function(event){
 		//console.log(global.globaluser);
 	});
 	
+	// Fetch sql server data for connection and store to global variable
+	fs.readFile('./config/sqlconfig.json', 'utf-8', (error, data) => {
+		if(error) throw error;
+		
+		// Converting JSON-data to Javascript-object
+		config = JSON.parse(data);
+		
+		//console.log(config);
+	});
+	
 	// Open mainWindow
 	createMainWindow();
 	
 	// When opened
 	mainWindow.webContents.once('did-finish-load', () => {
 		mainWindow.webContents.send('profile:update');
+		mainWindow.webContents.send('connection:update');
 		// Close login window
 		const win = BrowserWindow.fromWebContents(event.sender);
 		win.close();
@@ -475,6 +492,61 @@ ipcMain.on('close:window', function(event){
 		console.log('Write file successfully.');
 	});
 });*/
+
+/* SQL start */
+ipcMain.on('sql:connect', function(event){
+	console.log('Connecting to server:', config.server);
+	
+	// Connect to server with credentials from config object
+	(async function () {
+		try {
+			sqlpool = await sql.connect(config);
+			console.log('Connected to:', config.server, '-', config.database);
+			connectionstatus = 'connected';
+			mainWindow.webContents.send('connection:update');
+		} catch(err){
+			console.log(err);
+			connectionstatus = 'error';
+			mainWindow.webContents.send('connection:update');
+		}
+	})();
+});
+
+ipcMain.on('sql:disconnect', function(event){
+	console.log('Disconnecting from server:', config.server);
+	
+	// Close connection to server
+	(async function () {
+		try {
+			sqlpool = await sql.close();
+			console.log('Disconnected from:', config.server);
+			connectionstatus = 'disconnected';
+			mainWindow.webContents.send('connection:update');
+		} catch(err){
+			console.log(err);
+			connectionstatus = 'error';
+			mainWindow.webContents.send('connection:update');
+		}
+	})();
+});
+
+ipcMain.on('sql:read', function(event){
+	console.log('Sir, yes sir');
+	
+	(async function () {
+		try {
+			let pool = await sql.connect(config);
+			let result1 = await pool.request()
+				.input('input_parameter', sql.VarChar(3), 'FLI')
+				.query('SELECT InvNr FROM Api.Equipment WHERE Signatur = @input_parameter');
+			console.log(result1);
+		} catch(err){
+			console.log(err);
+		}
+	})();
+	console.log('End');
+});
+/* SQL end */
 
 /*****************************************************************************/
 // Create main menu template
