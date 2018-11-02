@@ -5,8 +5,18 @@ const path = require('path');
 const fs = require('fs');
 
 const sql = require('mssql');
+sql.on('error', err => {
+	console.log(err);
+});
 var config = {};
-let sql_pool;
+global.connectionstatus = 'disconnected';
+global.syncstatus = 'outdated'; // (succeeded, failed)
+global.synctimestamp = new Date();
+console.log(synctimestamp.toLocaleString());
+/*sql.on('error', err => {
+	// Error handler for SQL
+	console.log(err);
+});*/
 
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
@@ -15,10 +25,9 @@ global.globaluser = {
 	responsibilities: []
 };
 
-global.connectionstatus = 'disconnected';
-
 // SET ENV
-process.env.NODE_ENV = 'dev';//'production';
+process.env.NODE_ENV = 'dev';
+//process.env.NODE_ENV = 'production';
 
 // Window initiation
 let loginWindow;
@@ -366,6 +375,124 @@ function createSummaryWindow(){
 }
 
 /*****************************************************************************/
+/* SQL functions section */
+function connErrorHandler(error){
+	console.log('Connection error');
+	// Handle errors individually
+	switch(error) {
+		case ELOGIN:
+			console.log('Login failed');
+			break;
+		case ETIMEOUT:
+			console.log('Connection timeout');
+			break;
+		case EALREADYCONNECTED:
+			console.log('Database is already connected');
+			break;
+		case EALREADYCONNECTING:
+			console.log('Already connection to database');
+			break;
+		case EINSTLOOKUP:
+			console.log('Instance lookup failed');
+			break;
+		case ESOCKET:
+			console.log('Socket error');
+			break;
+		default:
+			console.log('Can´t read error code');
+			break;
+	}
+	// Print connection error if it occurs and set global status flag
+	console.log(error);
+	syncstatus = 'failed';
+	mainWindow.webContents.send('sync:update');
+}
+
+function queryErrorHandler(error){
+	console.log('Query error');
+	// Handle errors individually
+	switch(error) {
+		case ETIMEOUT:
+			console.log('Request timeout');
+			break;
+		case EREQUEST:
+			// Get message from SQL Server...
+			console.log('Message from SQL Server');
+			break;
+		case ECANCEL:
+			console.log('Cancelled');
+			break;
+		case ENOCONN:
+			console.log('No connection is specified for that request');
+			break;
+		case ENOTOPEN:
+			console.log('Connection not yet opened');
+			break;
+		case ECONNCLOSED:
+			console.log('Connection is closed');
+			break;
+		case ENOTBEGUN:
+			console.log('Transaction has not begun');
+			break;
+		case EABORT:
+			console.log('Transaction was aborted by user or because of an error');
+			break;
+		default:
+			console.log('Can´t read error code');
+			break;
+	}
+	// Print query error if it occurs and set global status flag
+	console.log(error);
+	syncstatus = 'failed';
+	mainWindow.webContents.send('sync:update');
+	sql_conn.close();
+}
+
+function sqlSync(siteupdate, inventoryupdate){
+	// Create new connection instance for credentials in config
+	var sql_conn = new sql.ConnectionPool(config);
+	// Connect to SQL server using promise (r/w only possible if connected)
+	sql_conn.connect().then(function(){
+		// If connection is successful, create request to query db
+		var sql_request = new sql.Request(sql_conn);
+		// Query db for data depending on which parameter flags is set
+		if(siteupdate !== 0){
+			sql_request.input('input_parameter', sql.VarChar(3), 'FLI');
+			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
+				console.log(recordSet);
+				syncstatus = 'succeeded';
+				mainWindow.webContents.send('sync:update');
+				sql_conn.close();
+			}).catch(function(err){
+				// Call error handler function for query
+				queryErrorHandler(err);
+			});
+		}
+		if(inventoryupdate !== 0){
+			sql_request.input('input_parameter', sql.VarChar(3), 'FLI');
+			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
+				console.log(recordSet);
+				syncstatus = 'succeeded';
+				mainWindow.webContents.send('sync:update');
+				sql_conn.close();
+			}).catch(function(err){
+				// Call error handler function for query
+				queryErrorHandler(err);
+			});
+		}
+	}).catch(function(err){
+		// Call error handler function for connection
+		connErrorHandler(err);
+	});
+}
+
+// Catch sql:sync
+ipcMain.on('sql:sync', function(event){
+	console.log('Connecting to server:', config.server);
+	sqlSync(1,0);
+});
+
+/*****************************************************************************/
 /* Main toolbox IPC-communication section */
 // Catch login:successful
 ipcMain.on('login:successful', function(event){
@@ -387,6 +514,21 @@ ipcMain.on('login:successful', function(event){
 		config = JSON.parse(data);
 		
 		//console.log(config);
+		
+		// Open sql connection with config and update local db
+		/*sql_pool = new sql.ConnectionPool(config, err => {
+			const site_request = new sql.Request();
+			site_request.input('input_parameter', sql.VarChar(3), 'FLI');
+			site_request.execute()
+		});
+		sql_pool.on('error', err => {
+			console.log(err);
+			connectionstatus = 'error';
+			mainWindow.webContents.send('connection:update');
+		});
+		// Initiate sql request with pool
+		sql_request = new sql.Request(sql_pool);*/
+		sqlSync(1, 0);
 	});
 	
 	// Open mainWindow
@@ -395,11 +537,15 @@ ipcMain.on('login:successful', function(event){
 	// When opened
 	mainWindow.webContents.once('did-finish-load', () => {
 		mainWindow.webContents.send('profile:update');
-		mainWindow.webContents.send('connection:update');
+		mainWindow.webContents.send('sync:update');
 		// Close login window
 		const win = BrowserWindow.fromWebContents(event.sender);
 		win.close();
 	});
+});
+
+ipcMain.on('local:test', function(event){
+	console.log('Working!');
 });
 
 // Catch open:profile
@@ -497,17 +643,18 @@ ipcMain.on('close:window', function(event){
 ipcMain.on('sql:connect', function(event){
 	console.log('Connecting to server:', config.server);
 	
-	// Connect to server with credentials from config object
+	// Connect to server
 	(async function () {
 		try {
-			sqlpool = await sql.connect(config);
+			// Connect to server with credentials from config object
+			sql_pool = await sql.connect(config);
 			console.log('Connected to:', config.server, '-', config.database);
 			connectionstatus = 'connected';
-			mainWindow.webContents.send('connection:update');
+			mainWindow.webContents.send('sync:update');
 		} catch(err){
 			console.log(err);
 			connectionstatus = 'error';
-			mainWindow.webContents.send('connection:update');
+			mainWindow.webContents.send('sync:update');
 		}
 	})();
 });
@@ -518,25 +665,27 @@ ipcMain.on('sql:disconnect', function(event){
 	// Close connection to server
 	(async function () {
 		try {
-			sqlpool = await sql.close();
+			sql_pool = await sql.close();
 			console.log('Disconnected from:', config.server);
 			connectionstatus = 'disconnected';
-			mainWindow.webContents.send('connection:update');
+			mainWindow.webContents.send('sync:update');
 		} catch(err){
 			console.log(err);
 			connectionstatus = 'error';
-			mainWindow.webContents.send('connection:update');
+			mainWindow.webContents.send('sync:update');
 		}
 	})();
 });
 
 ipcMain.on('sql:read', function(event){
-	console.log('Sir, yes sir');
+	console.log('Reading from database:', config.database);
 	
 	(async function () {
 		try {
-			let pool = await sql.connect(config);
-			let result1 = await pool.request()
+			// Check if connection is established
+			//let pool = await sql.connect(config);
+			// If it is, make query
+			let result1 = await sql_pool.request()
 				.input('input_parameter', sql.VarChar(3), 'FLI')
 				.query('SELECT InvNr FROM Api.Equipment WHERE Signatur = @input_parameter');
 			console.log(result1);
@@ -544,7 +693,6 @@ ipcMain.on('sql:read', function(event){
 			console.log(err);
 		}
 	})();
-	console.log('End');
 });
 /* SQL end */
 
