@@ -450,20 +450,6 @@ ipcMain.on('login:successful', function(event){
 		config = JSON.parse(data);
 		
 		//console.log(config);
-		
-		// Open sql connection with config and update local db
-		/*sql_pool = new sql.ConnectionPool(config, err => {
-			const site_request = new sql.Request();
-			site_request.input('input_parameter', sql.VarChar(3), 'FLI');
-			site_request.execute()
-		});
-		sql_pool.on('error', err => {
-			console.log(err);
-			connectionstatus = 'error';
-			mainWindow.webContents.send('connection:update');
-		});
-		// Initiate sql request with pool
-		sql_request = new sql.Request(sql_pool);*/
 	});
 	
 	// Open mainWindow
@@ -473,7 +459,6 @@ ipcMain.on('login:successful', function(event){
 	mainWindow.webContents.once('did-finish-load', () => {
 		mainWindow.webContents.send('profile:update');
 		sqlSync(1, 0);
-		//mainWindow.webContents.send('sync:update', 'STARTED');
 		// Close login window
 		const win = BrowserWindow.fromWebContents(event.sender);
 		win.close();
@@ -574,63 +559,6 @@ ipcMain.on('close:window', function(event){
 		console.log('Write file successfully.');
 	});
 });*/
-
-/* SQL start */
-ipcMain.on('sql:connect', function(event){
-	console.log('Connecting to server:', config.server);
-	
-	// Connect to server
-	(async function () {
-		try {
-			// Connect to server with credentials from config object
-			sql_pool = await sql.connect(config);
-			console.log('Connected to:', config.server, '-', config.database);
-			connectionstatus = 'connected';
-			mainWindow.webContents.send('sync:update');
-		} catch(err){
-			console.log(err);
-			connectionstatus = 'error';
-			mainWindow.webContents.send('sync:update');
-		}
-	})();
-});
-
-ipcMain.on('sql:disconnect', function(event){
-	console.log('Disconnecting from server:', config.server);
-	
-	// Close connection to server
-	(async function () {
-		try {
-			sql_pool = await sql.close();
-			console.log('Disconnected from:', config.server);
-			connectionstatus = 'disconnected';
-			mainWindow.webContents.send('sync:update');
-		} catch(err){
-			console.log(err);
-			connectionstatus = 'error';
-			mainWindow.webContents.send('sync:update');
-		}
-	})();
-});
-
-ipcMain.on('sql:read', function(event){
-	console.log('Reading from database:', config.database);
-	
-	(async function () {
-		try {
-			// Check if connection is established
-			//let pool = await sql.connect(config);
-			// If it is, make query
-			let result1 = await sql_pool.request()
-				.input('input_parameter', sql.VarChar(3), 'FLI')
-				.query('SELECT InvNr FROM Api.Equipment WHERE Signatur = @input_parameter');
-			console.log(result1);
-		} catch(err){
-			console.log(err);
-		}
-	})();
-});
-/* SQL end */
 
 /*****************************************************************************/
 // Create main menu template
