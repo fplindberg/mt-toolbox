@@ -11,8 +11,7 @@ sql.on('error', err => {
 var config = {};
 global.connectionstatus = 'disconnected';
 global.syncstatus = 'outdated'; // (succeeded, failed)
-global.synctimestamp = new Date();
-console.log(synctimestamp.toLocaleString());
+global.sqlerrorstring = '';
 /*sql.on('error', err => {
 	// Error handler for SQL
 	console.log(err);
@@ -376,76 +375,11 @@ function createSummaryWindow(){
 
 /*****************************************************************************/
 /* SQL functions section */
-function connErrorHandler(error){
-	console.log('Connection error');
-	// Handle errors individually
-	switch(error) {
-		case ELOGIN:
-			console.log('Login failed');
-			break;
-		case ETIMEOUT:
-			console.log('Connection timeout');
-			break;
-		case EALREADYCONNECTED:
-			console.log('Database is already connected');
-			break;
-		case EALREADYCONNECTING:
-			console.log('Already connection to database');
-			break;
-		case EINSTLOOKUP:
-			console.log('Instance lookup failed');
-			break;
-		case ESOCKET:
-			console.log('Socket error');
-			break;
-		default:
-			console.log('Can´t read error code');
-			break;
-	}
-	// Print connection error if it occurs and set global status flag
-	console.log(error);
+function sqlErrorHandler(error){
+	// Print connection error, set global status flag and update main window
+	console.log(error.message);
 	syncstatus = 'failed';
-	mainWindow.webContents.send('sync:update');
-}
-
-function queryErrorHandler(error){
-	console.log('Query error');
-	// Handle errors individually
-	switch(error) {
-		case ETIMEOUT:
-			console.log('Request timeout');
-			break;
-		case EREQUEST:
-			// Get message from SQL Server...
-			console.log('Message from SQL Server');
-			break;
-		case ECANCEL:
-			console.log('Cancelled');
-			break;
-		case ENOCONN:
-			console.log('No connection is specified for that request');
-			break;
-		case ENOTOPEN:
-			console.log('Connection not yet opened');
-			break;
-		case ECONNCLOSED:
-			console.log('Connection is closed');
-			break;
-		case ENOTBEGUN:
-			console.log('Transaction has not begun');
-			break;
-		case EABORT:
-			console.log('Transaction was aborted by user or because of an error');
-			break;
-		default:
-			console.log('Can´t read error code');
-			break;
-	}
-	// Print query error if it occurs and set global status flag
-	console.log(error);
-	syncstatus = 'failed';
-	mainWindow.webContents.send('sync:update');
-	sql_conn.close();
+	mainWindow.webContents.send('sync:update', error.code);
 }
 
 function sqlSync(siteupdate, inventoryupdate){
@@ -461,11 +395,12 @@ function sqlSync(siteupdate, inventoryupdate){
 			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
 				console.log(recordSet);
 				syncstatus = 'succeeded';
-				mainWindow.webContents.send('sync:update');
+				mainWindow.webContents.send('sync:update', 'OK');
 				sql_conn.close();
 			}).catch(function(err){
-				// Call error handler function for query
-				queryErrorHandler(err);
+				// Call SQL error handler function
+				sqlErrorHandler(err);
+				sql_conn.close();
 			});
 		}
 		if(inventoryupdate !== 0){
@@ -473,16 +408,17 @@ function sqlSync(siteupdate, inventoryupdate){
 			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
 				console.log(recordSet);
 				syncstatus = 'succeeded';
-				mainWindow.webContents.send('sync:update');
+				mainWindow.webContents.send('sync:update', 'OK');
 				sql_conn.close();
 			}).catch(function(err){
-				// Call error handler function for query
-				queryErrorHandler(err);
+				// Call SQL error handler function
+				sqlErrorHandler(err);
+				sql_conn.close();
 			});
 		}
 	}).catch(function(err){
-		// Call error handler function for connection
-		connErrorHandler(err);
+		// Call SQL error handler function
+		sqlErrorHandler(err);
 	});
 }
 
@@ -528,7 +464,6 @@ ipcMain.on('login:successful', function(event){
 		});
 		// Initiate sql request with pool
 		sql_request = new sql.Request(sql_pool);*/
-		sqlSync(1, 0);
 	});
 	
 	// Open mainWindow
@@ -537,7 +472,8 @@ ipcMain.on('login:successful', function(event){
 	// When opened
 	mainWindow.webContents.once('did-finish-load', () => {
 		mainWindow.webContents.send('profile:update');
-		mainWindow.webContents.send('sync:update');
+		sqlSync(1, 0);
+		//mainWindow.webContents.send('sync:update', 'STARTED');
 		// Close login window
 		const win = BrowserWindow.fromWebContents(event.sender);
 		win.close();
