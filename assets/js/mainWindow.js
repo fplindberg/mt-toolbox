@@ -101,9 +101,9 @@ function openPMPlan(){
 	ipcRenderer.send('open:pm');
 }
 
-// Try to fetch data from SQL server
-function sqlRead(){
-	ipcRenderer.send('sql:read');
+// Open Test importer window when Test importer card is clicked
+function openTestImporter(){
+	
 }
 
 /*****************************************************************************/
