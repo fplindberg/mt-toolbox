@@ -11,7 +11,11 @@ sql.on('error', err => {
 var config = {};
 global.connectionstatus = 'disconnected';
 global.syncstatus = 'outdated'; // (succeeded, failed)
-global.sqlerrorstring = '';
+const sqlsignature = 'FLI';
+const sqlpmdate = new Date('2018-12-31');
+console.log(sqlpmdate);
+var sqlsites = [];
+var sqlsiteinventories = [];
 /*sql.on('error', err => {
 	// Error handler for SQL
 	console.log(err);
@@ -391,9 +395,13 @@ function sqlSync(siteupdate, inventoryupdate){
 		var sql_request = new sql.Request(sql_conn);
 		// Query db for data depending on which parameter flags is set
 		if(siteupdate !== 0){
-			sql_request.input('input_parameter', sql.VarChar(3), 'FLI');
-			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
-				console.log(recordSet);
+			// Get sites that signature is responsible for from server
+			sql_request.input('signature', sql.VarChar(3), sqlsignature);
+			sql_request.query('SELECT DISTINCT PlacA_Ovrigt AS site FROM dbo.vwInventarier WHERE Signatur = @signature').then(function(result1){
+				for(var i = 0; i < result1.rowsAffected; i++){
+					sqlsites[i] = result1.recordset[i].site;
+					//console.log(sqlsites[i]);
+				}
 				syncstatus = 'succeeded';
 				mainWindow.webContents.send('sync:update', 'OK');
 				sql_conn.close();
@@ -404,17 +412,41 @@ function sqlSync(siteupdate, inventoryupdate){
 			});
 		}
 		if(inventoryupdate !== 0){
-			sql_request.input('input_parameter', sql.VarChar(3), 'FLI');
-			sql_request.query('SELECT DISTINCT PlacA_Ovrigt FROM dbo.vwInventarier WHERE Signatur = @input_parameter').then(function(recordSet){
-				console.log(recordSet);
-				syncstatus = 'succeeded';
-				mainWindow.webContents.send('sync:update', 'OK');
-				sql_conn.close();
-			}).catch(function(err){
-				// Call SQL error handler function
-				sqlErrorHandler(err);
-				sql_conn.close();
-			});
+			var sqlinventories = {
+				site: '',
+				inventories: []
+			};
+			// Get inventories that need PM this year for each site is sqlsites
+			for(var i = 0; i < sqlsites.length; i++){
+				sqlinventories.site = sqlsites[i];
+				console.log(i);
+				sql_request.input('pm', sql.DateTime, sqlpmdate);
+				sql_request.input('site', sql.VarChar(30), sqlsites[i]);
+				sql_request.query('SELECT InvNR AS number, Benamn AS name, Modell AS model, SerieNr AS serial, FUIntNasta AS next_pm FROM dbo.vwInventarier WHERE Skrotad = 0 AND FuIntNasta <= @pm AND PlacA_Ovrigt = @site').then(function(result2){
+					sqlinventories.inventories[i] = result2.recordset;
+					/*sqlinventories.site = sqlsites[0];
+					sqlinventories.inventories[0] = result2.recordset;
+					console.log(result2.rowsAffected);*/
+					/*for(var j = 0; j < result2.rowsAffected; j++){
+						sqlinventories.inventories[j] = result2.recordset[j];
+						//console.log(sqlinventories.inventories[j]);
+					}*/
+					console.log(i, sqlsites.length);
+					// Close connection last iteration
+					if(i === sqlsites.length){
+						syncstatus = 'succeeded';
+						mainWindow.webContents.send('sync:update', 'OK');
+						sql_conn.close();
+					}
+				}).catch(function(err){
+					// Call SQL error handler function
+					sqlErrorHandler(err);
+					sql_conn.close();
+				});
+				//console.log(sqlinventories);
+				sqlsiteinventories[i] = sqlinventories;
+				console.log(sqlsiteinventories[i]);
+			}
 		}
 	}).catch(function(err){
 		// Call SQL error handler function
@@ -426,6 +458,7 @@ function sqlSync(siteupdate, inventoryupdate){
 ipcMain.on('sql:sync', function(event){
 	console.log('Connecting to server:', config.server);
 	sqlSync(1,0);
+	sqlSync(0,1);
 });
 
 /*****************************************************************************/
@@ -459,6 +492,7 @@ ipcMain.on('login:successful', function(event){
 	mainWindow.webContents.once('did-finish-load', () => {
 		mainWindow.webContents.send('profile:update');
 		sqlSync(1, 0);
+		sqlSync(0, 1);
 		// Close login window
 		const win = BrowserWindow.fromWebContents(event.sender);
 		win.close();
