@@ -41,6 +41,7 @@ let inventoryWindow;
 let profileWindow;
 let schedulerWindow;
 let summaryWindow;
+let tiWindow;
 
 /*****************************************************************************/
 /* App starting and initiation */
@@ -378,6 +379,49 @@ function createSummaryWindow(){
 }
 
 /*****************************************************************************/
+/* Window creation functions associated with Test Importer */
+// Function to create window for Test Importer of new inventory
+function createTIWindow(){
+	// Create a new window
+	tiWindow = new BrowserWindow({
+		backgroundColor: '#a1887f',
+		width: 595,
+		height: 842,
+		minWidth: 595,
+		minHeight: 842,
+		title: 'Testimporterare',
+		show: false,
+		parent: mainWindow,
+		modal: true
+	});
+	
+	// Let window load before showing
+	tiWindow.once('ready-to-show', () => {
+		tiWindow.show();
+		tiWindow.focus();
+	});
+	
+	// Load html into window
+	tiWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'tiWindow.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
+	
+	// Get window close event, return focus to parent
+	tiWindow.on('close', function(){
+		tiWindow.hide();
+		mainWindow.show();
+		mainWindow.focus();
+	});
+	
+	// Garbage collection handleEvent
+	tiWindow.on('closed', function(){
+		tiWindow = null;
+	});
+}
+
+/*****************************************************************************/
 /* SQL functions section */
 function sqlErrorHandler(error){
 	// Print connection error, set global status flag and update main window
@@ -574,6 +618,13 @@ ipcMain.on('store:report', function(event, pdfPath){
 			win.close();
 		});
 	});
+});
+
+/*****************************************************************************/
+/* Test Importer IPC-communication section */
+// Catch open:ti
+ipcMain.on('open:ti', function(event){
+	createTIWindow();
 });
 
 /*****************************************************************************/

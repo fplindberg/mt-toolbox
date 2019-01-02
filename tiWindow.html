@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit=no">
+	<title>Testimporterare</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="node_modules/material-design-icons/iconfont/material-icons.css">
+	
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/scrollbar.css">
+	<link rel="stylesheet" href="assets/css/tiWindow.css">
+</head>
+
+<body class="app">
+	<!-- Page header -->
+	<div class="jumbotron">
+		<div class="page-header text-center">
+			<h1>Testimporterare</h1>
+		</div>
+	</div>
+	
+	<!-- Container with selection fields to make import settings -->
+	<div class="container">
+		 <div class="form-group">
+			<label for="test-equipment">Utrustning</label>
+			<select class="form-control" id="test-equipment">
+			  <option>Rigel288</option>
+			  <option>...</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="com-port">COM-port</label>
+			<select class="form-control" id="com-port">
+			  <option>COM1</option>
+			  <option>...<option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="data-bits">Data-bitar</label>
+			<select class="form-control" id="data-bits">
+			  <option>8</option>
+			  <option>...</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="stop-bits">Stopp-bitar</label>
+			<select class="form-control" id="stop-bits">
+			  <option>1</option>
+			  <option>...</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="parity-control">Paritetskontroll</label>
+			<select class="form-control" id="parity-control">
+			  <option>None</option>
+			  <option>...</option>
+			</select>
+		  </div>
+	</div>
+	
+	<!-- Javascripts -->
+	<script src="assets/js/tiWindow.js"></script>
+</body>
+</html>
